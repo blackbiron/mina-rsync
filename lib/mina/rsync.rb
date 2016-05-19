@@ -41,7 +41,7 @@ task :rsync => %w[rsync:stage] do
   user = settings.user + "@" if settings.user
   host = settings.domain
   port = settings.port
-  rsync << "-e \"ssh -p #{port}\" #{user}#{host}:#{rsync_cache.call}"
+  rsync << "-e \"ssh -p 2705\" #{user}#{host}:#{rsync_cache.call}"
 
   run.call rsync
 end
