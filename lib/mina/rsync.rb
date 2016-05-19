@@ -9,6 +9,7 @@ set_default :repository, "."
 set_default :branch, "master"
 set_default :rsync_options, []
 set_default :rsync_copy, "rsync --archive --acls --xattrs"
+set_default :port, '22'
 
 # Stage is used on your local machine for rsyncing from.
 set_default :rsync_stage, "tmp/deploy"
@@ -40,7 +41,8 @@ task :rsync => %w[rsync:stage] do
 
   user = settings.user + "@" if settings.user
   host = settings.domain
-  rsync << "#{user}#{host}:#{rsync_cache.call}"
+  port = settings.port
+  rsync << "-e \"ssh -p #{port}\" #{user}#{host}:#{rsync_cache.call}"
 
   run.call rsync
 end
